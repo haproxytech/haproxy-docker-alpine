@@ -73,5 +73,5 @@ done
 echo >> README.md
 cat README_short.md >> README.md
 
-git commit -a -m "README regen triggered by $HAPROXY_UPDATED release(s)"
+git commit -a -m "README regen triggered by $HAPROXY_UPDATED release(s)" || true
 git push
