@@ -5,7 +5,7 @@ MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 2.0.6
+LABEL Version 2.0.7
 LABEL RUN /usr/bin/docker -d IMAGE
 
 ENV HAPROXY_BRANCH 2.0
