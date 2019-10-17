@@ -29,6 +29,7 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     make -C /tmp/haproxy -j"$(nproc)" TARGET=linux-glibc CPU=generic USE_PCRE2=1 USE_PCRE2_JIT=1 USE_REGPARM=1 USE_OPENSSL=1 \
                             USE_ZLIB=1 USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
                             USE_LUA=1 LUA_LIB=/usr/lib/lua5.3 LUA_INC=/usr/include/lua5.3 \
+                            EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
                             all && \
     make -C /tmp/haproxy TARGET=linux2628 install-bin install-man && \
     ln -s /usr/local/sbin/haproxy /usr/sbin/haproxy && \
