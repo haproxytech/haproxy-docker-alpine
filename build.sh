@@ -2,7 +2,7 @@
 
 DOCKER_TAG="haproxytech/haproxy-alpine"
 HAPROXY_GITHUB_URL="https://github.com/haproxytech/haproxy-docker-alpine/blob/master"
-HAPROXY_BRANCHES="1.5 1.6 1.7 1.8 1.9 2.0 2.1"
+HAPROXY_BRANCHES="1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2"
 HAPROXY_CURRENT_BRANCH="2.0"
 PUSH="no"
 HAPROXY_UPDATED=""
