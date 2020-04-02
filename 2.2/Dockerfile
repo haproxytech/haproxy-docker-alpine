@@ -5,11 +5,11 @@ MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 2.2-dev5
+LABEL Version 2.2-dev4
 LABEL RUN /usr/bin/docker -d IMAGE
 
 ENV HAPROXY_BRANCH 2.2
-ENV HAPROXY_MINOR 2.2-dev5
+ENV HAPROXY_MINOR 2.2-dev4
 ENV HAPROXY_SHA256 21ca1d2cfa56bc164ee9931300972c99e51b966408f05784eb16f581b6f62c7d
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
@@ -18,7 +18,7 @@ ENV HAPROXY_GID haproxy
 
 RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
-    zlib-dev curl shadow && \
+    zlib-dev libexecinfo-dev curl shadow && \
     curl -sfSL "$HAPROXY_SRC_URL/$HAPROXY_BRANCH/src/devel/haproxy-$HAPROXY_MINOR.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
@@ -40,7 +40,7 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     cp -R /tmp/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors && \
     rm -rf /tmp/haproxy && \
     apk del build-deps && \
-    apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
+    apk add --no-cache openssl zlib lua5.3-libs pcre2 libexecinfo && \
     rm -f /var/cache/apk/*
 
 COPY haproxy.cfg /usr/local/etc/haproxy
