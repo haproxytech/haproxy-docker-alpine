@@ -18,7 +18,7 @@ ENV HAPROXY_GID haproxy
 
 RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
-    zlib-dev libexecinfo-dev curl shadow && \
+    zlib-dev curl shadow && \
     curl -sfSL "$HAPROXY_SRC_URL/$HAPROXY_BRANCH/src/devel/haproxy-$HAPROXY_MINOR.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
@@ -27,7 +27,7 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     tar -xzf haproxy.tar.gz -C /tmp/haproxy --strip-components=1 && \
     rm -f haproxy.tar.gz && \
     make -C /tmp/haproxy -j"$(nproc)" TARGET=linux-glibc CPU=generic USE_PCRE2=1 USE_PCRE2_JIT=1 USE_REGPARM=1 USE_OPENSSL=1 \
-                            USE_ZLIB=1 USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
+                            USE_ZLIB=1 USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 USE_BACKTRACE= \
                             USE_LUA=1 LUA_LIB=/usr/lib/lua5.3 LUA_INC=/usr/include/lua5.3 \
                             EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
                             all && \
@@ -40,7 +40,7 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     cp -R /tmp/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors && \
     rm -rf /tmp/haproxy && \
     apk del build-deps && \
-    apk add --no-cache openssl zlib lua5.3-libs pcre2 libexecinfo && \
+    apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
     rm -f /var/cache/apk/*
 
 COPY haproxy.cfg /usr/local/etc/haproxy
