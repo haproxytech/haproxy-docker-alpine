@@ -13,8 +13,8 @@ ENV HAPROXY_MINOR 2.0.14
 ENV HAPROXY_SHA256 552a708b8b6efd0f241f5d9fd7ad4168d37ce17cdb6dcb6239c2e519f0a63c75
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR v1.2.5
-ENV DATAPLANE_SHA256 0359966747490b55e6ea8c75a9b4969c707ce644dd8041ad8afb49882b97f3a1
+ENV DATAPLANE_MINOR 2.0.0
+ENV DATAPLANE_SHA256 3fe3739d2d54b769804638c16c98a43c34ad568c25bb8a132635d240cbdefbce
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
 ENV HAPROXY_UID haproxy
@@ -23,7 +23,7 @@ ENV HAPROXY_GID haproxy
 RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow ca-certificates && \
-    curl -sfSL "$HAPROXY_SRC_URL/$HAPROXY_BRANCH/src/haproxy-$HAPROXY_MINOR.tar.gz" -o haproxy.tar.gz && \
+    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
     useradd -g "$HAPROXY_GID" "$HAPROXY_UID" && \
@@ -43,11 +43,15 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     ln -s /usr/local/etc/haproxy /etc/haproxy && \
     cp -R /tmp/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors && \
     rm -rf /tmp/haproxy && \
-    curl -sfSL "$DATAPLANE_URL/$DATAPLANE_MINOR/dataplaneapi" -o dataplaneapi && \
-    echo "$DATAPLANE_SHA256 *dataplaneapi" | sha256sum -c - && \
-    mv dataplaneapi /usr/local/bin/dataplaneapi && \
+    curl -sfSL "${DATAPLANE_URL}/v${DATAPLANE_MINOR}/dataplaneapi_${DATAPLANE_MINOR}_Linux_x86_64.tar.gz" -o dataplane.tar.gz && \
+    echo "$DATAPLANE_SHA256 *dataplane.tar.gz" | sha256sum -c - && \
+    mkdir /tmp/dataplane && \
+    tar -xzf dataplane.tar.gz -C /tmp/dataplane --strip-components=1 && \
+    rm -f dataplane.tar.gz && \
+    mv /tmp/dataplane/dataplaneapi /usr/local/bin/dataplaneapi && \
     chmod +x /usr/local/bin/dataplaneapi && \
     ln -s /usr/local/bin/dataplaneapi /usr/bin/dataplaneapi && \
+    rm -rf /tmp/dataplane && \
     apk del build-deps && \
     apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
     rm -f /var/cache/apk/*

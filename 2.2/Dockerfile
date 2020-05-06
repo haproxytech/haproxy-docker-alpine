@@ -5,16 +5,16 @@ MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 2.2-dev6
+LABEL Version 2.2-dev7
 LABEL RUN /usr/bin/docker -d IMAGE
 
 ENV HAPROXY_BRANCH 2.2
-ENV HAPROXY_MINOR 2.2-dev6
-ENV HAPROXY_SHA256 777f6312671c3c7e9c32bcb4f8ae9f487f2311b8d5a8d1b1cef98833f45968ee
+ENV HAPROXY_MINOR 2.2-dev7
+ENV HAPROXY_SHA256 b81f0feaa91ab7568b3378b3a3651419be29d91afef122dbf5aef96b2a25d971
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR v1.2.5
-ENV DATAPLANE_SHA256 0359966747490b55e6ea8c75a9b4969c707ce644dd8041ad8afb49882b97f3a1
+ENV DATAPLANE_MINOR 2.0.0
+ENV DATAPLANE_SHA256 3fe3739d2d54b769804638c16c98a43c34ad568c25bb8a132635d240cbdefbce
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
 ENV HAPROXY_UID haproxy
@@ -23,15 +23,15 @@ ENV HAPROXY_GID haproxy
 RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow ca-certificates && \
-    curl -sfSL "$HAPROXY_SRC_URL/$HAPROXY_BRANCH/src/devel/haproxy-$HAPROXY_MINOR.tar.gz" -o haproxy.tar.gz && \
+    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/devel/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
     useradd -g "$HAPROXY_GID" "$HAPROXY_UID" && \
     mkdir -p /tmp/haproxy && \
     tar -xzf haproxy.tar.gz -C /tmp/haproxy --strip-components=1 && \
     rm -f haproxy.tar.gz && \
-    make -C /tmp/haproxy -j"$(nproc)" TARGET=linux-glibc CPU=generic USE_PCRE2=1 USE_PCRE2_JIT=1 USE_REGPARM=1 USE_OPENSSL=1 \
-                            USE_ZLIB=1 USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 USE_BACKTRACE= \
+    make -C /tmp/haproxy -j"$(nproc)" TARGET=linux-musl CPU=generic USE_PCRE2=1 USE_PCRE2_JIT=1 USE_REGPARM=1 USE_OPENSSL=1 \
+                            USE_ZLIB=1 USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
                             USE_LUA=1 LUA_LIB=/usr/lib/lua5.3 LUA_INC=/usr/include/lua5.3 \
                             EXTRA_OBJS="contrib/prometheus-exporter/service-prometheus.o" \
                             all && \
@@ -43,15 +43,18 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     ln -s /usr/local/etc/haproxy /etc/haproxy && \
     cp -R /tmp/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors && \
     rm -rf /tmp/haproxy && \
-    curl -sfSL "$DATAPLANE_URL/$DATAPLANE_MINOR/dataplaneapi" -o dataplaneapi && \
-    echo "$DATAPLANE_SHA256 *dataplaneapi" | sha256sum -c - && \
-    mv dataplaneapi /usr/local/bin/dataplaneapi && \
+    curl -sfSL "${DATAPLANE_URL}/v${DATAPLANE_MINOR}/dataplaneapi_${DATAPLANE_MINOR}_Linux_x86_64.tar.gz" -o dataplane.tar.gz && \
+    echo "$DATAPLANE_SHA256 *dataplane.tar.gz" | sha256sum -c - && \
+    mkdir /tmp/dataplane && \
+    tar -xzf dataplane.tar.gz -C /tmp/dataplane --strip-components=1 && \
+    rm -f dataplane.tar.gz && \
+    mv /tmp/dataplane/dataplaneapi /usr/local/bin/dataplaneapi && \
     chmod +x /usr/local/bin/dataplaneapi && \
     ln -s /usr/local/bin/dataplaneapi /usr/bin/dataplaneapi && \
+    rm -rf /tmp/dataplane && \
     apk del build-deps && \
     apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
     rm -f /var/cache/apk/*
-
 
 COPY haproxy.cfg /usr/local/etc/haproxy
 COPY docker-entrypoint.sh /
