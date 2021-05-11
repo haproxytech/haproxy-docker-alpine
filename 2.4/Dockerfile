@@ -17,19 +17,12 @@ ENV DATAPLANE_MINOR 2.3.0
 ENV DATAPLANE_SHA256 78cfdff090f8f4af6efba8064e82516fd0f25b0688bb8ad1e21b087053ef14c7
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
-ENV LIBSLZ_VERSION 1.2.0
-
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
 
 RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow ca-certificates && \
-    curl -sfSL "http://git.1wt.eu/web?p=libslz.git;a=snapshot;h=v${LIBSLZ_VERSION};sf=tgz" -o libslz.tar.gz && \
-    mkdir -p /tmp/libslz && \
-    tar -xzf libslz.tar.gz -C /tmp/libslz --strip-components=1 && \
-    make -C /tmp/libslz static && \
-    rm -f libslz.tar.gz && \
     curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/devel/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
@@ -40,7 +33,7 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     make -C /tmp/haproxy -j"$(nproc)" TARGET=linux-musl CPU=generic USE_PCRE2=1 USE_PCRE2_JIT=1 USE_REGPARM=1 USE_OPENSSL=1 \
                             USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
                             USE_LUA=1 LUA_LIB=/usr/lib/lua5.3 LUA_INC=/usr/include/lua5.3 \
-                            USE_PROMEX=1 USE_SLZ=1 SLZ_INC=/tmp/libslz/src SLZ_LIB=/tmp/libslz \
+                            USE_PROMEX=1 USE_SLZ=1 \
                             all && \
     make -C /tmp/haproxy TARGET=linux2628 install-bin install-man && \
     ln -s /usr/local/sbin/haproxy /usr/sbin/haproxy && \
@@ -49,7 +42,6 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     mkdir -p /usr/local/etc/haproxy && \
     ln -s /usr/local/etc/haproxy /etc/haproxy && \
     cp -R /tmp/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors && \
-    rm -rf /tmp/libslz && \
     rm -rf /tmp/haproxy && \
     curl -sfSL "${DATAPLANE_URL}/v${DATAPLANE_MINOR}/dataplaneapi_${DATAPLANE_MINOR}_Linux_x86_64.tar.gz" -o dataplane.tar.gz && \
     echo "$DATAPLANE_SHA256 *dataplane.tar.gz" | sha256sum -c - && \
