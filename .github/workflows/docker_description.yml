@@ -9,6 +9,8 @@ on:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE: haproxytech/haproxy-alpine
     steps:
       - name: Check out repo
         id: checkout
@@ -20,5 +22,5 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          repository: ${{ github.repository }}
+          repository: ${{ env.DOCKER_IMAGE }}
           short-description: ${{ github.event.repository.description }}
