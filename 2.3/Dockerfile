@@ -64,6 +64,8 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     chmod +x /usr/local/bin/dataplaneapi && \
     ln -s /usr/local/bin/dataplaneapi /usr/bin/dataplaneapi && \
     rm -rf /tmp/dataplane && \
+    touch /usr/local/etc/haproxy/dataplaneapi.hcl && \
+    chown "$HAPROXY_UID:$HAPROXY_GID" /usr/local/etc/haproxy/dataplaneapi.hcl && \
     apk del build-deps && \
     apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
     rm -f /var/cache/apk/*
