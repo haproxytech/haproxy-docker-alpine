@@ -13,10 +13,10 @@
   [`amd64`](https://hub.docker.com/r/amd64/haproxy/)
 
 - **Image updates**:  
-  [commits to `haproxytech/haproxy-docker-alpine`](https://github.com/haproxytech/haproxy-docker-alpine/commits/master), [top level `haproxytech/haproxy-docker-alpine` image folder](https://github.com/haproxytech/haproxy-docker-alpine)
+  [commits to `haproxytech/haproxy-docker-alpine`](https://github.com/haproxytech/haproxy-docker-alpine/commits/main), [top level `haproxytech/haproxy-docker-alpine` image folder](https://github.com/haproxytech/haproxy-docker-alpine)
 
 - **Source of this description**:  
-  [README.md](https://github.com/haproxytech/haproxy-docker-alpine/blob/master/README.md)
+  [README.md](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/README.md)
 
 # What is HAProxy?
 
@@ -40,7 +40,7 @@ Other features include:
 
 # How to use this image
 
-This image is being shipped with a trivial sample configuration and for any real life use it should be configured according to the [extensive documentation](https://cbonte.github.io/haproxy-dconv/) and [examples](https://github.com/haproxy/haproxy/tree/master/examples). We will now show how to override shipped haproxy.cfg with one of your own.
+This image is being shipped with a trivial sample configuration and for any real life use it should be configured according to the [extensive documentation](https://cbonte.github.io/haproxy-dconv/) and [examples](https://github.com/haproxy/haproxy/tree/main/examples). We will now show how to override shipped haproxy.cfg with one of your own.
 
 ## Create a `Dockerfile`
 
@@ -115,6 +115,6 @@ $ docker run -d --name my-running-haproxy --expose 5555 -v /path/to/etc/haproxy:
 
 # License
 
-View [license information](https://raw.githubusercontent.com/haproxy/haproxy/master/LICENSE) for the software contained in this image.
+View [license information](https://raw.githubusercontent.com/haproxy/haproxy/main/LICENSE) for the software contained in this image.
 
 As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
