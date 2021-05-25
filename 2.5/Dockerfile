@@ -1,3 +1,13 @@
+FROM golang:latest AS builder
+
+ENV DATAPLANE_MINOR 2.3.1
+ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi.git
+
+RUN git clone "${DATAPLANE_URL}" "${GOPATH}/src/github.com/haproxytech/dataplaneapi"
+RUN cd "${GOPATH}/src/github.com/haproxytech/dataplaneapi" && \
+    git checkout "v${DATAPLANE_MINOR}" && \
+    make build && cp build/dataplaneapi /dataplaneapi
+
 FROM alpine:3.12
 
 MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
@@ -19,6 +29,8 @@ ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
+
+COPY --from=builder /dataplaneapi /usr/local/bin/dataplaneapi
 
 RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
@@ -43,15 +55,8 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     ln -s /usr/local/etc/haproxy /etc/haproxy && \
     cp -R /tmp/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors && \
     rm -rf /tmp/haproxy && \
-    curl -sfSL "${DATAPLANE_URL}/v${DATAPLANE_MINOR}/dataplaneapi_${DATAPLANE_MINOR}_Linux_x86_64.tar.gz" -o dataplane.tar.gz && \
-    echo "$DATAPLANE_SHA256 *dataplane.tar.gz" | sha256sum -c - && \
-    mkdir /tmp/dataplane && \
-    tar -xzf dataplane.tar.gz -C /tmp/dataplane --strip-components=1 && \
-    rm -f dataplane.tar.gz && \
-    mv /tmp/dataplane/dataplaneapi /usr/local/bin/dataplaneapi && \
     chmod +x /usr/local/bin/dataplaneapi && \
     ln -s /usr/local/bin/dataplaneapi /usr/bin/dataplaneapi && \
-    rm -rf /tmp/dataplane && \
     touch /usr/local/etc/haproxy/dataplaneapi.hcl && \
     chown "$HAPROXY_UID:$HAPROXY_GID" /usr/local/etc/haproxy/dataplaneapi.hcl && \
     apk del build-deps && \

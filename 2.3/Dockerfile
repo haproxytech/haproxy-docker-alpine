@@ -1,3 +1,13 @@
+FROM golang:latest AS builder
+
+ENV DATAPLANE_MINOR 2.3.1
+ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi.git
+
+RUN git clone "${DATAPLANE_URL}" "${GOPATH}/src/github.com/haproxytech/dataplaneapi"
+RUN cd "${GOPATH}/src/github.com/haproxytech/dataplaneapi" && \
+    git checkout "v${DATAPLANE_MINOR}" && \
+    make build && cp build/dataplaneapi /dataplaneapi
+
 FROM alpine:3.12
 
 MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
@@ -13,16 +23,14 @@ ENV HAPROXY_MINOR 2.3.10
 ENV HAPROXY_SHA256 9946e0cfc83f29072b3431e37246221cf9d4a9d28a158c075714d345266f4f35
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR 2.3.1
-ENV DATAPLANE_SHA256 ec685350576898bb0a00d656f427f5da7c28043551a3e0050c1b5301547e235a
-ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
-
 ENV LIBSLZ_MINOR 1.2.0
 ENV LIBSLZ_SHA256 723a8ef648ac5b30e5074c013ff61a5e5f54a5aafc9496f7dab9f6b02030bf24
 ENV LIBSLZ_URL https://github.com/wtarreau/libslz/archive/refs/tags
 
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
+
+COPY --from=builder /dataplaneapi /usr/local/bin/dataplaneapi
 
 RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
@@ -55,15 +63,8 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     cp -R /tmp/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors && \
     rm -rf /tmp/libslz && \
     rm -rf /tmp/haproxy && \
-    curl -sfSL "${DATAPLANE_URL}/v${DATAPLANE_MINOR}/dataplaneapi_${DATAPLANE_MINOR}_Linux_x86_64.tar.gz" -o dataplane.tar.gz && \
-    echo "$DATAPLANE_SHA256 *dataplane.tar.gz" | sha256sum -c - && \
-    mkdir /tmp/dataplane && \
-    tar -xzf dataplane.tar.gz -C /tmp/dataplane --strip-components=1 && \
-    rm -f dataplane.tar.gz && \
-    mv /tmp/dataplane/dataplaneapi /usr/local/bin/dataplaneapi && \
     chmod +x /usr/local/bin/dataplaneapi && \
     ln -s /usr/local/bin/dataplaneapi /usr/bin/dataplaneapi && \
-    rm -rf /tmp/dataplane && \
     touch /usr/local/etc/haproxy/dataplaneapi.hcl && \
     chown "$HAPROXY_UID:$HAPROXY_GID" /usr/local/etc/haproxy/dataplaneapi.hcl && \
     apk del build-deps && \
