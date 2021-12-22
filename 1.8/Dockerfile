@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.15
 
 MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 
