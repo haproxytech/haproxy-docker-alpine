@@ -1,10 +1,10 @@
 # Supported tags and respective `Dockerfile` links
 
 -	[`2.6-dev3`, `2.6`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.6/Dockerfile)
--	[`2.5.4`, `2.5`, `latest`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.5/Dockerfile)
--	[`2.4.14`, `2.4`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.4/Dockerfile)
--	[`2.3.18`, `2.3`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.3/Dockerfile)
--	[`2.2.21`, `2.2`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.2/Dockerfile)
+-	[`2.5.5`, `2.5`, `latest`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.5/Dockerfile)
+-	[`2.4.15`, `2.4`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.4/Dockerfile)
+-	[`2.3.19`, `2.3`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.3/Dockerfile)
+-	[`2.2.22`, `2.2`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.2/Dockerfile)
 -	[`2.1.12`, `2.1`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.1/Dockerfile)
 -	[`2.0.27`, `2.0`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.0/Dockerfile)
 -	[`1.9.16`, `1.9`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/1.9/Dockerfile)
