@@ -18,7 +18,7 @@ LABEL Vendor HAProxy
 LABEL Version 2.6.0
 LABEL RUN /usr/bin/docker -d IMAGE
 
-ENV HAPROXY_BRANCH 2.6
+ENV HAPROXY_BRANCH 2.7
 ENV HAPROXY_MINOR 2.6.0
 ENV HAPROXY_SHA256 90f8e608aacd513b0f542e0438fa12e7fb4622cf58bd4375f3fe0350146eaa59
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
@@ -35,7 +35,7 @@ COPY --from=builder /dataplaneapi /usr/local/bin/dataplaneapi
 RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow ca-certificates && \
-    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
+    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/devel/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
     useradd -g "$HAPROXY_GID" "$HAPROXY_UID" && \
