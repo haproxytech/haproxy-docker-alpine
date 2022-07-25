@@ -1,6 +1,6 @@
 FROM golang:latest AS builder
 
-ENV DATAPLANE_MINOR 2.5.3
+ENV DATAPLANE_MINOR 2.6.0
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi.git
 
 RUN git clone "${DATAPLANE_URL}" "${GOPATH}/src/github.com/haproxytech/dataplaneapi"
@@ -15,15 +15,15 @@ MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 2.7-dev0
+LABEL Version 2.7-dev2
 LABEL RUN /usr/bin/docker -d IMAGE
 
 ENV HAPROXY_BRANCH 2.7
-ENV HAPROXY_MINOR 2.7-dev0x
-ENV HAPROXY_SHA256 75cfe3f3884cae05f93f0a91114b953de7aebba574c026e9d9106988fed34080
+ENV HAPROXY_MINOR 2.7-dev2
+ENV HAPROXY_SHA256 44a98ca9e52421442532c5de58755cc6b54a70c81e082efdcba40d5302565bb6
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR 2.5.3
+ENV DATAPLANE_MINOR 2.6.0
 ENV DATAPLANE_SHA256 ec685350576898bb0a00d656f427f5da7c28043551a3e0050c1b5301547e235a
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
