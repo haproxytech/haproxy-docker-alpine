@@ -8,7 +8,7 @@ RUN cd "${GOPATH}/src/github.com/haproxytech/dataplaneapi" && \
     git checkout "v${DATAPLANE_MINOR}" && \
     make build && cp build/dataplaneapi /dataplaneapi
 
-FROM alpine:3.15
+FROM alpine:3.16
 
 MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 
@@ -19,7 +19,7 @@ LABEL Version 2.1.12
 LABEL RUN /usr/bin/docker -d IMAGE
 
 ENV HAPROXY_BRANCH 2.1
-ENV HAPROXY_MINOR 2.1.12
+ENV HAPROXY_MINOR 2.1.12-old
 ENV HAPROXY_SHA256 acebbf932f2703ee287d6e945bd845cde8c9db9a13f7cbb2a99671499c558056
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
