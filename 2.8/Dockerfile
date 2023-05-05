@@ -1,6 +1,6 @@
 FROM golang:latest AS builder
 
-ENV DATAPLANE_MINOR 2.7.3
+ENV DATAPLANE_MINOR 2.7.4
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi.git
 
 RUN git clone "${DATAPLANE_URL}" "${GOPATH}/src/github.com/haproxytech/dataplaneapi"
@@ -23,7 +23,7 @@ ENV HAPROXY_MINOR 2.8-dev9
 ENV HAPROXY_SHA256 ea58972223170412e5bf439439b57f3e22d03d2e026b66bea25517ce569d8b80
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR 2.7.3
+ENV DATAPLANE_MINOR 2.7.4
 ENV DATAPLANE_SHA256 ec685350576898bb0a00d656f427f5da7c28043551a3e0050c1b5301547e235a
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
