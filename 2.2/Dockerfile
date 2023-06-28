@@ -32,9 +32,10 @@ ENV HAPROXY_GID haproxy
 
 COPY --from=builder /dataplaneapi /usr/local/bin/dataplaneapi
 
-RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
+RUN apk add --no-cache ca-certificates && \
+    apk add --no-cache --virtual build-deps gcc libc-dev \
     linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
-    zlib-dev curl shadow ca-certificates && \
+    zlib-dev curl shadow && \
     curl -sfSL "${LIBSLZ_URL}/v${LIBSLZ_MINOR}.tar.gz" -o libslz.tar.gz && \
     echo "$LIBSLZ_SHA256 *libslz.tar.gz" | sha256sum -c - && \
     mkdir -p /tmp/libslz && \

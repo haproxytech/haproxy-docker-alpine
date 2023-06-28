@@ -32,9 +32,10 @@ ENV HAPROXY_GID haproxy
 
 COPY --from=builder /dataplaneapi /usr/local/bin/dataplaneapi
 
-RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
-    linux-headers lua5.3-dev make openssl openssl-dev pcre2-dev tar \
-    zlib-dev curl shadow ca-certificates && \
+RUN apk add --no-cache ca-certificates && \
+    apk add --no-cache --virtual build-deps gcc libc-dev \
+    linux-headers lua5.4-dev make openssl openssl-dev pcre2-dev tar \
+    zlib-dev curl shadow && \
     curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
@@ -44,7 +45,7 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     rm -f haproxy.tar.gz && \
     make -C /tmp/haproxy -j"$(nproc)" TARGET=linux-musl CPU=generic USE_PCRE2=1 USE_PCRE2_JIT=1 USE_OPENSSL=1 \
                             USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
-                            USE_LUA=1 LUA_LIB=/usr/lib/lua5.3 LUA_INC=/usr/include/lua5.3 \
+                            USE_LUA=1 LUA_LIB=/usr/lib/lua5.4 LUA_INC=/usr/include/lua5.4 \
                             USE_PROMEX=1 USE_SLZ=1 \
                             all && \
     make -C /tmp/haproxy TARGET=linux2628 install-bin install-man && \
@@ -60,7 +61,7 @@ RUN apk add --no-cache --virtual build-deps ca-certificates gcc libc-dev \
     touch /usr/local/etc/haproxy/dataplaneapi.hcl && \
     chown "$HAPROXY_UID:$HAPROXY_GID" /usr/local/etc/haproxy/dataplaneapi.hcl && \
     apk del build-deps && \
-    apk add --no-cache openssl zlib lua5.3-libs pcre2 && \
+    apk add --no-cache openssl zlib lua5.4-libs pcre2 && \
     rm -f /var/cache/apk/*
 
 COPY haproxy.cfg /usr/local/etc/haproxy
