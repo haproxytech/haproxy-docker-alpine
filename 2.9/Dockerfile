@@ -47,6 +47,7 @@ RUN apk add --no-cache ca-certificates && \
                             USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
                             USE_LUA=1 LUA_LIB=/usr/lib/lua5.4 LUA_INC=/usr/include/lua5.4 \
                             USE_PROMEX=1 USE_SLZ=1 \
+                            USE_QUIC=1 USE_QUIC_OPENSSL_COMPAT=1 \
                             all && \
     make -C /tmp/haproxy TARGET=linux2628 install-bin install-man && \
     ln -s /usr/local/sbin/haproxy /usr/sbin/haproxy && \
