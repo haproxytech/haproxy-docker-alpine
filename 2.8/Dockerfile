@@ -48,7 +48,6 @@ RUN apk add --no-cache ca-certificates jemalloc && \
                             USE_LUA=1 LUA_LIB=/usr/lib/lua5.4 LUA_INC=/usr/include/lua5.4 \
                             USE_PROMEX=1 USE_SLZ=1 \
                             USE_OPENSSL=1 USE_PTHREAD_EMULATION=1 \
-                            USE_QUIC=1 USE_QUIC_OPENSSL_COMPAT=1 \
                             ADDLIB=-ljemalloc \
                             all && \
     make -C /tmp/haproxy TARGET=linux2628 install-bin install-man && \
