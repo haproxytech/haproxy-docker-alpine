@@ -36,7 +36,7 @@ RUN apk add --no-cache ca-certificates jemalloc && \
     apk add --no-cache --virtual build-deps gcc libc-dev \
     linux-headers lua5.4-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow jemalloc-dev && \
-    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/devel/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
+    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
     useradd -g "$HAPROXY_GID" "$HAPROXY_UID" && \
