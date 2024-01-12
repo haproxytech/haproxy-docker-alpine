@@ -11,7 +11,7 @@ jobs:
       matrix:
         branch: ["2.0", "2.2", "2.4", "2.5", "2.6", "2.7", "2.8", "2.9", "3.0"]
     env:
-      DOCKER_PLATFORMS: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386
+      DOCKER_PLATFORMS: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
       DOCKER_IMAGE: haproxytech/haproxy-alpine
       STABLE_BRANCH: "2.9"
     steps:
