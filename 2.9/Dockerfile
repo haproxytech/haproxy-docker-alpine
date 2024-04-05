@@ -1,6 +1,6 @@
 FROM golang:alpine3.18 AS builder
 
-ENV DATAPLANE_MINOR 2.9.1
+ENV DATAPLANE_MINOR 2.9.2
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi.git
 
 RUN apk add --no-cache ca-certificates git make && \
@@ -24,7 +24,7 @@ ENV HAPROXY_MINOR 2.9.6
 ENV HAPROXY_SHA256 208adf47c8fa83c54978034ba5c0110b7463c47078f119bd052342171a3b9a0b
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR 2.9.1
+ENV DATAPLANE_MINOR 2.9.2
 ENV DATAPLANE_SHA256 ec685350576898bb0a00d656f427f5da7c28043551a3e0050c1b5301547e235a
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
