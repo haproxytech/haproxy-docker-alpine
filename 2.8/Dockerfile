@@ -9,7 +9,7 @@ RUN apk add --no-cache ca-certificates git make && \
     git checkout "v${DATAPLANE_MINOR}" && \
     make build && cp build/dataplaneapi /dataplaneapi
 
-FROM alpine:3.18
+FROM alpine:3.20
 
 MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 
