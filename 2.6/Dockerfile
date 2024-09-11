@@ -1,13 +1,17 @@
 FROM golang:alpine3.20 AS builder
 
 ENV DATAPLANE_MINOR 3.0.0
+ENV DATAPLANE_V2_MINOR 2.9.6
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi.git
 
 RUN apk add --no-cache ca-certificates git make && \
     git clone "${DATAPLANE_URL}" "${GOPATH}/src/github.com/haproxytech/dataplaneapi" && \
     cd "${GOPATH}/src/github.com/haproxytech/dataplaneapi" && \
     git checkout "v${DATAPLANE_MINOR}" && \
-    make build && cp build/dataplaneapi /dataplaneapi
+    make build && cp build/dataplaneapi /dataplaneapi && \
+    make clean && \
+    git checkout "v${DATAPLANE_V2_MINOR}" && \
+    make build && cp build/dataplaneapi /dataplaneapi-v2
 
 FROM alpine:3.20
 
@@ -24,14 +28,11 @@ ENV HAPROXY_MINOR 2.6.18
 ENV HAPROXY_SHA256 1b36d3c618360eff7cdc2b70dd53affdf9c939d0fdf8602ac2d77018535f709a
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
-ENV DATAPLANE_MINOR 3.0.0
-ENV DATAPLANE_SHA256 ec685350576898bb0a00d656f427f5da7c28043551a3e0050c1b5301547e235a
-ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
-
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
 
 COPY --from=builder /dataplaneapi /usr/local/bin/dataplaneapi
+COPY --from=builder /dataplaneapi-v2 /usr/local/bin/dataplaneapi-v2
 
 RUN apk add --no-cache ca-certificates jemalloc && \
     apk add --no-cache --virtual build-deps gcc libc-dev \
@@ -61,6 +62,8 @@ RUN apk add --no-cache ca-certificates jemalloc && \
     rm -rf /tmp/haproxy && \
     chmod +x /usr/local/bin/dataplaneapi && \
     ln -s /usr/local/bin/dataplaneapi /usr/bin/dataplaneapi && \
+    chmod +x /usr/local/bin/dataplaneapi-v2 && \
+    ln -s /usr/local/bin/dataplaneapi-v2 /usr/bin/dataplaneapi-v2 && \
     touch /usr/local/etc/haproxy/dataplaneapi.yml && \
     chown "$HAPROXY_UID:$HAPROXY_GID" /usr/local/etc/haproxy/dataplaneapi.yml && \
     apk del build-deps && \
