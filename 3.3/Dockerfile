@@ -20,11 +20,11 @@ MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 3.2.0
+LABEL Version 3.3.0
 LABEL RUN /usr/bin/docker -d IMAGE
 
-ENV HAPROXY_BRANCH 3.2
-ENV HAPROXY_MINOR 3.2.0-old
+ENV HAPROXY_BRANCH 3.3
+ENV HAPROXY_MINOR 3.3.0-old
 ENV HAPROXY_SHA256 f762ae31bca1b51feb89e4395e36e17f867c25372a10853c70d292c3dd17b7b0
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
@@ -38,7 +38,7 @@ RUN apk add --no-cache ca-certificates jemalloc && \
     apk add --no-cache --virtual build-deps gcc libc-dev \
     linux-headers lua5.4-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow jemalloc-dev && \
-    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
+    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/devel/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     groupadd "$HAPROXY_GID" && \
     useradd -g "$HAPROXY_GID" "$HAPROXY_UID" && \
