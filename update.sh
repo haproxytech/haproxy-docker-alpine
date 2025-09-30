@@ -74,11 +74,13 @@ sed -r -i -e "s!^(ENV HAPROXY_SRC_URL) .*!\1 ${HAPROXY_SRC_URL}!;
             s!^(ENV DATAPLANE_V2_MINOR) .*!\1 ${DATAPLANE_V2_MINOR}!" \
             "${DOCKERFILE}"
 
-sed -r -i -e "s!^(ENV HAPROXY_SRC_URL) .*!\1 ${HAPROXY_SRC_URL}!;
-            s!^(ENV HAPROXY_BRANCH) .*!\1 ${HAPROXY_BRANCH}!;
-            s!^(ENV HAPROXY_MINOR) .*!\1 ${HAPROXY_MINOR}!;
-            s!^(LABEL Version) .*!\1 ${HAPROXY_MINOR}!;
-            s!^(ENV HAPROXY_SHA256) .*!\1 ${HAPROXY_SHA256}!
-            s!^(ENV DATAPLANE_MINOR) .*!\1 ${DATAPLANE_MINOR}!
-            s!^(ENV DATAPLANE_V2_MINOR) .*!\1 ${DATAPLANE_V2_MINOR}!" \
-            "${DOCKERFILE_API}"
+if [ -f "${DOCKERFILE_API}" ]; then
+    sed -r -i -e "s!^(ENV HAPROXY_SRC_URL) .*!\1 ${HAPROXY_SRC_URL}!;
+                s!^(ENV HAPROXY_BRANCH) .*!\1 ${HAPROXY_BRANCH}!;
+                s!^(ENV HAPROXY_MINOR) .*!\1 ${HAPROXY_MINOR}!;
+                s!^(LABEL Version) .*!\1 ${HAPROXY_MINOR}!;
+                s!^(ENV HAPROXY_SHA256) .*!\1 ${HAPROXY_SHA256}!
+                s!^(ENV DATAPLANE_MINOR) .*!\1 ${DATAPLANE_MINOR}!
+                s!^(ENV DATAPLANE_V2_MINOR) .*!\1 ${DATAPLANE_V2_MINOR}!" \
+                "${DOCKERFILE_API}"
+fi
