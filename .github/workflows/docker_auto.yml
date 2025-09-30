@@ -37,14 +37,6 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
       - name: Check out repo
         id: checkout
         uses: actions/checkout@v4
@@ -83,8 +75,32 @@ jobs:
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ env.BUILD_BRANCH }}
             ghcr.io/${{ github.repository }}:${{ env.BUILD_VER }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+
+      - name: Build and push latest stable branch for s6
+        if: ${{ env.BUILD_BRANCH == env.STABLE_BRANCH }}
+        id: docker_build_latest
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ env.BUILD_BRANCH }}
+          file: ${{ env.BUILD_BRANCH }}/Dockerfile.api
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: ${{ env.DOCKER_PLATFORMS }}
+          push: true
+          labels: |
+            org.opencontainers.image.authors=${{ github.repository_owner }}
+            org.opencontainers.image.created=${{ env.BUILD_DATE }}
+            org.opencontainers.image.description=Created from commit ${{ env.GIT_SHA }} and ref ${{ env.GIT_REF }}
+            org.opencontainers.image.ref.name=${{ env.GIT_REF }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=${{ env.BUILD_VER }}
+          tags: |
+            ${{ env.DOCKER_IMAGE }}:s6-latest
+            ${{ env.DOCKER_IMAGE }}:s6-${{ env.BUILD_BRANCH }}
+            ${{ env.DOCKER_IMAGE }}:s6-${{ env.BUILD_VER }}
+            ghcr.io/${{ github.repository }}:s6-latest
+            ghcr.io/${{ github.repository }}:s6-${{ env.BUILD_BRANCH }}
+            ghcr.io/${{ github.repository }}:s6-${{ env.BUILD_VER }}
 
       - name: Build and push everything else
         if: ${{ env.BUILD_BRANCH != env.STABLE_BRANCH }}
@@ -109,10 +125,27 @@ jobs:
             ${{ env.DOCKER_IMAGE }}:${{ env.BUILD_VER }}
             ghcr.io/${{ github.repository }}:${{ env.BUILD_BRANCH }}
             ghcr.io/${{ github.repository }}:${{ env.BUILD_VER }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+      - name: Build and push everything else for s6
+        if: ${{ env.BUILD_BRANCH != env.STABLE_BRANCH }}
+        id: docker_build_regular
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ env.BUILD_BRANCH }}
+          file: ${{ env.BUILD_BRANCH }}/Dockerfile.api
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: ${{ env.DOCKER_PLATFORMS }}
+          push: true
+          labels: |
+            org.opencontainers.image.authors=${{ github.repository_owner }}
+            org.opencontainers.image.created=${{ env.BUILD_DATE }}
+            org.opencontainers.image.description=Created from commit ${{ env.GIT_SHA }} and ref ${{ env.GIT_REF }}
+            org.opencontainers.image.ref.name=${{ env.GIT_REF }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=${{ env.BUILD_VER }}
+          tags: |
+            ${{ env.DOCKER_IMAGE }}:s6-${{ env.BUILD_BRANCH }}
+            ${{ env.DOCKER_IMAGE }}:s6-${{ env.BUILD_VER }}
+            ghcr.io/${{ github.repository }}:s6-${{ env.BUILD_BRANCH }}
+            ghcr.io/${{ github.repository }}:s6-${{ env.BUILD_VER }}
