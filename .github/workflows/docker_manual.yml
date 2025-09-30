@@ -78,7 +78,7 @@ jobs:
 
       - name: Build and push latest stable branch for s6
         if: ${{ env.BUILD_BRANCH == env.STABLE_BRANCH }}
-        id: docker_build_latest
+        id: docker_build_latest_s6
         uses: docker/build-push-action@v6
         with:
           context: ${{ env.BUILD_BRANCH }}
@@ -128,7 +128,7 @@ jobs:
 
       - name: Build and push everything else for s6
         if: ${{ env.BUILD_BRANCH != env.STABLE_BRANCH }}
-        id: docker_build_regular
+        id: docker_build_regular_s6
         uses: docker/build-push-action@v6
         with:
           context: ${{ env.BUILD_BRANCH }}
