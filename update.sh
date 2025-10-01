@@ -47,19 +47,26 @@ if [ -z "${HAPROXY_SHA256}" ]; then
     exit 1
 fi
 
-DATAPLANE_SRC_URL="https://api.github.com/repos/haproxytech/dataplaneapi/releases/latest"
-DATAPLANE_MINOR=$(curl -sfSL "${DATAPLANE_SRC_URL}" | \
-    grep '"tag_name":' | \
-    sed -E 's/.*"v?([^"]+)".*/\1/')
+DATAPLANE_SRC_URL="https://api.github.com/repos/haproxytech/dataplaneapi/releases"
+DATAPLANE_SRC_URL_CONTENT=$(curl -sfSL "${DATAPLANE_SRC_URL}")
+DATAPLANE_BRANCH="${HAPROXY_BRANCH}"
+
+DATAPLANE_MINOR=$(echo "${DATAPLANE_SRC_URL_CONTENT}" | \
+    grep "\"tag_name\":.*\"v${DATAPLANE_BRANCH}\." | \
+    sed -E 's/.*"v?([^"]+)".*/\1/' | \
+    sort -V | \
+    tail -1
+)
 
 if [ -z "${DATAPLANE_MINOR}" ]; then
-    echo "Could not identify latest HAProxy Dataplane release"
-    exit 1
+    DATAPLANE_SRC_URL="https://api.github.com/repos/haproxytech/dataplaneapi/releases/latest"
+    DATAPLANE_MINOR=$(curl -sfSL "${DATAPLANE_SRC_URL}" | \
+        grep '"tag_name":' | \
+        sed -E 's/.*"v?([^"]+)".*/\1/')
 fi
 
-DATAPLANE_SRC_URL="https://api.github.com/repos/haproxytech/dataplaneapi/releases"
-DATAPLANE_V2_MINOR=$(curl -sfSL "${DATAPLANE_SRC_URL}" | \
-    grep '"tag_name":.*"v2' | \
+DATAPLANE_V2_MINOR=$(echo "${DATAPLANE_SRC_URL_CONTENT}" | \
+    grep '"tag_name":.*"v2\.' | \
     sed -E 's/.*"v?([^"]+)".*/\1/' | \
     sort -V | \
     tail -1
