@@ -11,13 +11,13 @@ for i in $HAPROXY_BRANCHES; do
     echo "Building HAProxy $i"
 
     DOCKERFILE="$i/Dockerfile"
-    HAPROXY_MINOR_OLD=$(awk '/^ENV HAPROXY_MINOR/ {print $NF}' "$DOCKERFILE")
-    DATAPLANE_MINOR_OLD=$(awk '/^ENV DATAPLANE_MINOR/ {print $NF}' "$DOCKERFILE")
+    HAPROXY_MINOR_OLD=$(awk '/^ENV HAPROXY_MINOR/ {print $NF; exit}' "$DOCKERFILE")
+    DATAPLANE_MINOR_OLD=$(awk '/^ENV DATAPLANE_MINOR/ {print $NF; exit}' "$DOCKERFILE")
 
     ./update.sh "$i" || continue
 
-    HAPROXY_MINOR=$(awk '/^ENV HAPROXY_MINOR/ {print $NF}' "$DOCKERFILE")
-    DATAPLANE_MINOR=$(awk '/^ENV DATAPLANE_MINOR/ {print $NF}' "$DOCKERFILE")
+    HAPROXY_MINOR=$(awk '/^ENV HAPROXY_MINOR/ {print $NF; exit}' "$DOCKERFILE")
+    DATAPLANE_MINOR=$(awk '/^ENV DATAPLANE_MINOR/ {print $NF; exit}' "$DOCKERFILE")
 
     if [ "x$1" != "xforce" ]; then
         if [ \( "$HAPROXY_MINOR_OLD" = "$HAPROXY_MINOR" \) -a \( "$DATAPLANE_MINOR_OLD" = "$DATAPLANE_MINOR" \) ]; then
@@ -56,7 +56,7 @@ if [ "$PUSH" = "no" ]; then
 fi
 
 echo -e "# Supported tags and respective \`Dockerfile\` links\n" > README.md
-for i in $(awk '/^ENV HAPROXY_MINOR/ {print $NF}' */Dockerfile| sort -n -r); do
+for i in $(awk '/^ENV HAPROXY_MINOR/ {print $NF; exit}' */Dockerfile| sort -n -r); do
         short=$(echo $i | cut -d. -f1-2 |cut -d- -f1)
         if [ "$short" = "$HAPROXY_CURRENT_BRANCH" ]; then
                 if [ "$short" = "$i" ]; then
