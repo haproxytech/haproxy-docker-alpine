@@ -56,7 +56,7 @@ if [ "$PUSH" = "no" ]; then
 fi
 
 echo -e "# Supported tags and respective \`Dockerfile\` links\n" > README.md
-for i in $(awk '/^ENV HAPROXY_MINOR/ {print $NF; exit}' */Dockerfile| sort -n -r); do
+for i in $(awk '/^ENV HAPROXY_MINOR/ {print $NF}' */Dockerfile | sort -u -n -r); do
         short=$(echo $i | cut -d. -f1-2 |cut -d- -f1)
         if [ "$short" = "$HAPROXY_CURRENT_BRANCH" ]; then
                 if [ "$short" = "$i" ]; then
