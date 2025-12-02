@@ -14,7 +14,7 @@ RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux
 FROM alpine:3.20 AS hapce-builder
 
 ENV HAPROXY_BRANCH 3.4
-ENV HAPROXY_MINOR 3.4-dev0
+ENV HAPROXY_MINOR 3.4-force
 ENV HAPROXY_SHA256 05e40bd9690b250ba35147f46a0cc3fa0355eb8413958a5a695149fd2f837f5e
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
