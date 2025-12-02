@@ -58,7 +58,7 @@ ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
 
-ENV DATAPLANE_MINOR 3.2.6
+ENV DATAPLANE_MINOR 3.2.7
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
 ARG TARGETPLATFORM
