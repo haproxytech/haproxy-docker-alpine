@@ -1,7 +1,7 @@
 FROM alpine:3.20 AS awslc-builder
 
-ENV AWSLC_URL=https://github.com/aws/aws-lc.git
-ENV AWSLC_TAG=v1.65.1
+ENV AWSLC_URL https://github.com/aws/aws-lc.git
+ENV AWSLC_TAG v1.65.1
 
 RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux-headers git cmake samurai go && \
     git clone --depth 1 --branch "${AWSLC_TAG}" "${AWSLC_URL}" /tmp/aws-lc && \

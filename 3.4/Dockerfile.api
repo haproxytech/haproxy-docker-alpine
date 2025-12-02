@@ -1,7 +1,7 @@
 FROM alpine:3.20 AS awslc-builder
 
-ENV AWSLC_URL=https://github.com/aws/aws-lc.git
-ENV AWSLC_TAG=v1.65.1
+ENV AWSLC_URL https://github.com/aws/aws-lc.git
+ENV AWSLC_TAG v1.65.1
 
 RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux-headers git cmake samurai go && \
     git clone --depth 1 --branch "${AWSLC_TAG}" "${AWSLC_URL}" /tmp/aws-lc && \
@@ -67,11 +67,11 @@ COPY --from=awslc-builder /opt/aws-lc /opt/aws-lc
 COPY --from=hapce-builder /usr/local/sbin/haproxy /usr/local/sbin/haproxy
 COPY --from=hapce-builder /tmp/haproxy/examples/errorfiles/ /usr/local/etc/haproxy/errors
 
-ARG S6_OVERLAY_VERSION=3.2.1.0
+ARG S6_OVERLAY_VERSION 3.2.1.0
 ENV S6_OVERLAY_VERSION $S6_OVERLAY_VERSION
-ENV S6_READ_ONLY_ROOT=1
-ENV S6_USER=haproxy
-ENV S6_GROUP=haproxy
+ENV S6_READ_ONLY_ROOT 1
+ENV S6_USER haproxy
+ENV S6_GROUP haproxy
 
 COPY /fs /
 
