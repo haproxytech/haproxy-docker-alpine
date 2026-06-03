@@ -13,9 +13,9 @@ RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux
 
 FROM alpine:3.20 AS hapce-builder
 
-ENV HAPROXY_BRANCH 3.1
-ENV HAPROXY_MINOR 3.1.17
-ENV HAPROXY_SHA256 5f875a297032bb68f100363d034574694313a59fc5b699adf647063bbfe5e7a7
+ENV HAPROXY_BRANCH 3.5
+ENV HAPROXY_MINOR 3.5.0
+ENV HAPROXY_SHA256 9298f565c2a9ba8a4e7f89c54be2c5d3fd960b5b304eb5515e15d29d2c15d4f7
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
 COPY --from=awslc-builder /opt/aws-lc /opt/aws-lc
@@ -24,7 +24,7 @@ RUN apk add --no-cache ca-certificates jemalloc && \
     apk add --no-cache --virtual build-deps gcc libc-dev \
     linux-headers lua5.4-dev make openssl openssl-dev pcre2-dev tar \
     zlib-dev curl shadow jemalloc-dev && \
-    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
+    curl -sfSL "${HAPROXY_SRC_URL}/${HAPROXY_BRANCH}/src/devel/haproxy-${HAPROXY_MINOR}.tar.gz" -o haproxy.tar.gz && \
     echo "$HAPROXY_SHA256 *haproxy.tar.gz" | sha256sum -c - && \
     mkdir -p /tmp/haproxy && \
     tar -xzf haproxy.tar.gz -C /tmp/haproxy --strip-components=1 && \
@@ -47,18 +47,18 @@ MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 3.1.17
+LABEL Version 3.5.0
 LABEL RUN /usr/bin/docker -d IMAGE
 
-ENV HAPROXY_BRANCH 3.1
-ENV HAPROXY_MINOR 3.1.17
-ENV HAPROXY_SHA256 5f875a297032bb68f100363d034574694313a59fc5b699adf647063bbfe5e7a7
+ENV HAPROXY_BRANCH 3.5
+ENV HAPROXY_MINOR 3.5.0
+ENV HAPROXY_SHA256 9298f565c2a9ba8a4e7f89c54be2c5d3fd960b5b304eb5515e15d29d2c15d4f7
 ENV HAPROXY_SRC_URL http://www.haproxy.org/download
 
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
 
-ENV DATAPLANE_MINOR 3.1.14
+ENV DATAPLANE_MINOR 3.3.5
 ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
 
 ARG TARGETPLATFORM
