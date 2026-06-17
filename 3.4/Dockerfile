@@ -1,7 +1,7 @@
-FROM alpine:3.20 AS awslc-builder
+FROM alpine:3.23 AS awslc-builder
 
 ENV AWSLC_URL https://github.com/aws/aws-lc.git
-ENV AWSLC_TAG v1.69.0
+ENV AWSLC_TAG v4.0.0
 
 RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux-headers git cmake samurai go && \
     git clone --depth 1 --branch "${AWSLC_TAG}" "${AWSLC_URL}" /tmp/aws-lc && \
@@ -11,7 +11,7 @@ RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux
     ninja install && \
     rm -rf /tmp/aws-lc
 
-FROM alpine:3.20 AS hapce-builder
+FROM alpine:3.23 AS hapce-builder
 
 ENV HAPROXY_BRANCH 3.4
 ENV HAPROXY_MINOR 3.4.0
@@ -40,7 +40,7 @@ RUN apk add --no-cache ca-certificates jemalloc && \
                             all && \
     make -C /tmp/haproxy TARGET=linux2628 install-bin
 
-FROM alpine:3.20
+FROM alpine:3.23
 
 MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 
