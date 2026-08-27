@@ -1,12 +1,12 @@
 # Supported tags and respective `Dockerfile` links
 
 -	[`3.5-dev5`, `s6-3.5-dev5`, `3.5`, `s6-3.5`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.5/Dockerfile)
--	[`3.4.3`, `s6-3.4.3`, `3.4`, `s6-3.4`, `latest`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.4/Dockerfile)
--	[`3.3.13`, `s6-3.3.13`, `3.3`, `s6-3.3`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.3/Dockerfile)
--	[`3.2.22`, `s6-3.2.22`, `3.2`, `s6-3.2`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.2/Dockerfile)
--	[`3.0.26`, `s6-3.0.26`, `3.0`, `s6-3.0`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.0/Dockerfile)
--	[`2.8.27`, `s6-2.8.27`, `2.8`, `s6-2.8`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.8/Dockerfile)
--	[`2.6.32`, `s6-2.6.32`, `2.6`, `s6-2.6`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.6/Dockerfile)
+-	[`3.4.4`, `s6-3.4.4`, `3.4`, `s6-3.4`, `latest`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.4/Dockerfile)
+-	[`3.3.14`, `s6-3.3.14`, `3.3`, `s6-3.3`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.3/Dockerfile)
+-	[`3.2.23`, `s6-3.2.23`, `3.2`, `s6-3.2`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.2/Dockerfile)
+-	[`3.0.27`, `s6-3.0.27`, `3.0`, `s6-3.0`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.0/Dockerfile)
+-	[`2.8.28`, `s6-2.8.28`, `2.8`, `s6-2.8`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.8/Dockerfile)
+-	[`2.6.33`, `s6-2.6.33`, `2.6`, `s6-2.6`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.6/Dockerfile)
 
 # Quick reference
 
