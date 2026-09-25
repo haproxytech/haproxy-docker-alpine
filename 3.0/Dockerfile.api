@@ -32,7 +32,7 @@ RUN apk add --no-cache ca-certificates jemalloc && \
     make -C /tmp/haproxy -j"$(nproc)" TARGET=linux-musl CPU=generic USE_PCRE2=1 USE_PCRE2_JIT=1 \
                             USE_TFO=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 \
                             USE_LUA=1 LUA_LIB=/usr/lib/lua5.4 LUA_INC=/usr/include/lua5.4 \
-                            USE_PROMEX=1 USE_SLZ=1 \
+                            USE_PROMEX=1 USE_SLZ=1 USE_SYSTEMD=1 \
                             USE_OPENSSL_AWSLC=1 USE_PTHREAD_EMULATION=1 \
                             SSL_INC=/opt/aws-lc/include SSL_LIB=/opt/aws-lc/lib USE_QUIC=1 \
                             LDFLAGS="-L/opt/aws-lc/lib -Wl,-rpath,/opt/aws-lc/lib" \
