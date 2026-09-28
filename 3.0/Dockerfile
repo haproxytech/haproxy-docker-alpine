@@ -16,7 +16,7 @@ FROM alpine:3.23 AS hapce-builder
 ENV HAPROXY_BRANCH 3.0
 ENV HAPROXY_MINOR 3.0.29
 ENV HAPROXY_SHA256 225dbddbab9eb0abc0ff3db39ded1e07f20028105a36f4c36fc2f85bf86835d1
-ENV HAPROXY_SRC_URL http://www.haproxy.org/download
+ENV HAPROXY_SRC_URL https://www.haproxy.org/download
 
 COPY --from=awslc-builder /opt/aws-lc /opt/aws-lc
 
@@ -53,7 +53,7 @@ LABEL RUN /usr/bin/docker -d IMAGE
 ENV HAPROXY_BRANCH 3.0
 ENV HAPROXY_MINOR 3.0.29
 ENV HAPROXY_SHA256 225dbddbab9eb0abc0ff3db39ded1e07f20028105a36f4c36fc2f85bf86835d1
-ENV HAPROXY_SRC_URL http://www.haproxy.org/download
+ENV HAPROXY_SRC_URL https://www.haproxy.org/download
 
 ENV HAPROXY_UID haproxy
 ENV HAPROXY_GID haproxy
