@@ -14,8 +14,8 @@ RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux
 FROM alpine:3.23 AS hapce-builder
 
 ENV HAPROXY_BRANCH 3.5
-ENV HAPROXY_MINOR 3.5-dev8
-ENV HAPROXY_SHA256 e822ab9244750a9681c34f45fd5c1d4fe9962a985fc5c9a94a788acf1c1e1a54
+ENV HAPROXY_MINOR 3.5-dev9
+ENV HAPROXY_SHA256 f35671aaa339d10c2fde29bc22b71e727bc578e401c37411973a00fe72bc9d16
 ENV HAPROXY_SRC_URL https://www.haproxy.org/download
 
 COPY --from=awslc-builder /opt/aws-lc /opt/aws-lc
@@ -47,12 +47,12 @@ MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 LABEL Name HAProxy
 LABEL Release Community Edition
 LABEL Vendor HAProxy
-LABEL Version 3.5-dev8
+LABEL Version 3.5-dev9
 LABEL RUN /usr/bin/docker -d IMAGE
 
 ENV HAPROXY_BRANCH 3.5
-ENV HAPROXY_MINOR 3.5-dev8
-ENV HAPROXY_SHA256 e822ab9244750a9681c34f45fd5c1d4fe9962a985fc5c9a94a788acf1c1e1a54
+ENV HAPROXY_MINOR 3.5-dev9
+ENV HAPROXY_SHA256 f35671aaa339d10c2fde29bc22b71e727bc578e401c37411973a00fe72bc9d16
 ENV HAPROXY_SRC_URL https://www.haproxy.org/download
 
 ENV HAPROXY_UID haproxy
