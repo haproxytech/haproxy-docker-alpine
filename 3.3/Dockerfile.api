@@ -1,7 +1,7 @@
 FROM alpine:3.23 AS awslc-builder
 
-ENV AWSLC_URL https://github.com/aws/aws-lc.git
-ENV AWSLC_TAG v4.0.0
+ENV AWSLC_URL=https://github.com/aws/aws-lc.git
+ENV AWSLC_TAG=v4.0.0
 
 RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux-headers git cmake samurai go && \
     git clone --depth 1 --branch "${AWSLC_TAG}" "${AWSLC_URL}" /tmp/aws-lc && \
@@ -13,10 +13,10 @@ RUN apk add --no-cache curl build-base make autoconf automake gcc libc-dev linux
 
 FROM alpine:3.23 AS hapce-builder
 
-ENV HAPROXY_BRANCH 3.3
-ENV HAPROXY_MINOR 3.3.17
-ENV HAPROXY_SHA256 cf221e18e1d2d8155c40485b4389af4c7bcdfc774d806dcf391f9d247e4c1b63
-ENV HAPROXY_SRC_URL https://www.haproxy.org/download
+ENV HAPROXY_BRANCH=3.3
+ENV HAPROXY_MINOR=3.3.17
+ENV HAPROXY_SHA256=cf221e18e1d2d8155c40485b4389af4c7bcdfc774d806dcf391f9d247e4c1b63
+ENV HAPROXY_SRC_URL=https://www.haproxy.org/download
 
 COPY --from=awslc-builder /opt/aws-lc /opt/aws-lc
 
@@ -44,23 +44,23 @@ FROM alpine:3.23
 
 MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
 
-LABEL Name HAProxy
-LABEL Release Community Edition
-LABEL Vendor HAProxy
-LABEL Version 3.3.17
-LABEL RUN /usr/bin/docker -d IMAGE
+LABEL Name=HAProxy
+LABEL Release="Community Edition"
+LABEL Vendor=HAProxy
+LABEL Version=3.3.17
+LABEL RUN="/usr/bin/docker -d IMAGE"
 
-ENV HAPROXY_BRANCH 3.3
-ENV HAPROXY_MINOR 3.3.17
-ENV HAPROXY_SHA256 cf221e18e1d2d8155c40485b4389af4c7bcdfc774d806dcf391f9d247e4c1b63
-ENV HAPROXY_SRC_URL https://www.haproxy.org/download
+ENV HAPROXY_BRANCH=3.3
+ENV HAPROXY_MINOR=3.3.17
+ENV HAPROXY_SHA256=cf221e18e1d2d8155c40485b4389af4c7bcdfc774d806dcf391f9d247e4c1b63
+ENV HAPROXY_SRC_URL=https://www.haproxy.org/download
 
-ENV HAPROXY_UID haproxy
-ENV HAPROXY_GID haproxy
+ENV HAPROXY_UID=haproxy
+ENV HAPROXY_GID=haproxy
 
-ENV DATAPLANE_MINOR 3.3.12
-ENV DATAPLANE_CHECKSUMS_SHA256 2444133454cb1ca2f65ce04f1d5a72eb76ef4dc81e2d7f02ff23b4c430495eb2
-ENV DATAPLANE_URL https://github.com/haproxytech/dataplaneapi/releases/download
+ENV DATAPLANE_MINOR=3.3.12
+ENV DATAPLANE_CHECKSUMS_SHA256=2444133454cb1ca2f65ce04f1d5a72eb76ef4dc81e2d7f02ff23b4c430495eb2
+ENV DATAPLANE_URL=https://github.com/haproxytech/dataplaneapi/releases/download
 
 ARG TARGETPLATFORM
 
