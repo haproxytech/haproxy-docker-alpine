@@ -42,7 +42,7 @@ RUN apk add --no-cache ca-certificates jemalloc && \
 
 FROM alpine:3.23
 
-MAINTAINER Dinko Korunic <dkorunic@haproxy.com>
+LABEL maintainer="Dinko Korunic <dkorunic@haproxy.com>"
 
 LABEL Name=HAProxy
 LABEL Release="Community Edition"
