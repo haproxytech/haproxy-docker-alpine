@@ -4,7 +4,7 @@
 -	[`3.4.8`, `s6-3.4.8`, `3.4`, `s6-3.4`, `latest`, `s6-latest`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.4/Dockerfile)
 -	[`3.3.18`, `s6-3.3.18`, `3.3`, `s6-3.3`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.3/Dockerfile)
 -	[`3.2.27`, `s6-3.2.27`, `3.2`, `s6-3.2`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.2/Dockerfile)
--	[`3.0.31`, `s6-3.0.31`, `3.0`, `s6-3.0`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.0/Dockerfile)
+-	[`3.0.32`, `s6-3.0.32`, `3.0`, `s6-3.0`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/3.0/Dockerfile)
 -	[`2.8.32`, `2.8`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.8/Dockerfile)
 -	[`2.6.36`, `2.6`](https://github.com/haproxytech/haproxy-docker-alpine/blob/main/2.6/Dockerfile)
 
